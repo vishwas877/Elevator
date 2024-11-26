@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Elevator Exercise</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+        background-color: #f5f5f5;
+      }
+
+      .grid-container {
+        display: grid;
+        gap: 10px;
+        width: 30%;
+        padding: 10px;
+      }
+
+      .building {
+        display: flex;
+      }
+
+      .left .cell {
+        height: 55px;
+        width: 100px;
+        text-align: right;
+        padding: 30px 17px 0px 0px;
+      }
+
+      .middle {
+        border: 1px solid #333;
+        background-color: white;
+        display: flex;
+      }
+
+      .lift .cell {
+        border-right: 1px solid #ccc9c9;
+        border-bottom: 1px solid #ccc9c9;
+        width: 100px;
+        height: 55px;
+        padding: 30px 17px 0px 0px;
+      }
+
+      img {
+        margin-left: 30px;
+        margin-bottom: 10px;
+        width: 50%;
+        height: 0%;
+      }
+
+      .right .cell {
+        height: 55px;
+        width: 100px;
+        text-align: right;
+        padding: 30px 17px 0px 0px;
+      }
+
+      button {
+        color: white;
+        background-color: #8fca8f;
+        border: 1px solid #8fca8f;
+        border-radius: 2%;
+        width: 80px;
+        height: 50px;
+      }
+
+      .middle .lift {
+        position: relative;
+      }
+
+      .middle .elevator {
+        position: absolute;
+        bottom: 0;
+      }
+
+      .middle .second {
+        position: absolute;
+        bottom: 0;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="grid-container">
+      <div class="building">
+        <div class="left">
+          <div class="cell" data-floor="10">9th</div>
+          <div class="cell" data-floor="9">8th</div>
+          <div class="cell" data-floor="8">7th</div>
+          <div class="cell" data-floor="7">6th</div>
+          <div class="cell" data-floor="6">5th</div>
+          <div class="cell" data-floor="5">4th</div>
+          <div class="cell" data-floor="4">3rd</div>
+          <div class="cell" data-floor="3">2nd</div>
+          <div class="cell" data-floor="2">1st</div>
+          <div class="cell" data-floor="1">Ground Floor</div>
+        </div>
+
+        <div class="middle">
+          <div class="lift" id="lift_1" data-liftfloor="1">
+            <div class="cell" id="10_1"></div>
+            <div class="cell" id="9_1"></div>
+            <div class="cell" id="8_1"></div>
+            <div class="cell" id="7_1"></div>
+            <div class="cell" id="6_1"></div>
+            <div class="cell" id="5_1"></div>
+            <div class="cell" id="4_1"></div>
+            <div class="cell" id="3_1"></div>
+            <div class="cell" id="2_1"></div>
+            <div class="cell" id="1_1"></div>
+            <div class="elevator" id="elevator_1" data-lift="1" data-run="0">
+              <img id="img_1" src="black.svg" />
+            </div>
+            <div class="second" id="second_1"></div>
+          </div>
+
+          <div class="lift" id="lift_2" data-liftfloor="2">
+            <div class="cell" id="10_2"></div>
+            <div class="cell" id="9_2"></div>
+            <div class="cell" id="8_2"></div>
+            <div class="cell" id="7_2"></div>
+            <div class="cell" id="6_2"></div>
+            <div class="cell" id="5_2"></div>
+            <div class="cell" id="4_2"></div>
+            <div class="cell" id="3_2"></div>
+            <div class="cell" id="2_2"></div>
+            <div class="cell" id="1_2"></div>
+            <div class="elevator" id="elevator_2" data-lift="1" data-run="0">
+              <img id="img_1" src="black.svg" />
+            </div>
+            <div class="second" id="second_2"></div>
+          </div>
+
+          <div class="lift" id="lift_3" data-liftfloor="3">
+            <div class="cell" id="10_3"></div>
+            <div class="cell" id="9_3"></div>
+            <div class="cell" id="8_3"></div>
+            <div class="cell" id="7_3"></div>
+            <div class="cell" id="6_3"></div>
+            <div class="cell" id="5_3"></div>
+            <div class="cell" id="4_3"></div>
+            <div class="cell" id="3_3"></div>
+            <div class="cell" id="2_3"></div>
+            <div class="cell" id="1_3"></div>
+            <div class="elevator" id="elevator_3" data-lift="3" data-run="0">
+              <img id="img_1" src="black.svg" />
+            </div>
+            <div class="second" id="second_3"></div>
+          </div>
+
+          <div class="lift" id="lift_4" data-liftfloor="4">
+            <div class="cell" id="10_4"></div>
+            <div class="cell" id="9_4"></div>
+            <div class="cell" id="8_4"></div>
+            <div class="cell" id="7_4"></div>
+            <div class="cell" id="6_4"></div>
+            <div class="cell" id="5_4"></div>
+            <div class="cell" id="4_4"></div>
+            <div class="cell" id="3_4"></div>
+            <div class="cell" id="2_4"></div>
+            <div class="cell" id="1_4"></div>
+            <div class="elevator" id="elevator_4" data-lift="4" data-run="0">
+              <img id="img_1" src="black.svg" />
+            </div>
+            <div class="second" id="second_4"></div>
+          </div>
+
+          <div class="lift" id="lift_5" data-liftfloor="5">
+            <div class="cell" id="10_5"></div>
+            <div class="cell" id="9_5"></div>
+            <div class="cell" id="8_5"></div>
+            <div class="cell" id="7_5"></div>
+            <div class="cell" id="6_5"></div>
+            <div class="cell" id="5_5"></div>
+            <div class="cell" id="4_5"></div>
+            <div class="cell" id="3_5"></div>
+            <div class="cell" id="2_5"></div>
+            <div class="cell" id="1_5"></div>
+            <div class="elevator" id="elevator_5" data-lift="5" data-run="0">
+              <img id="img_1" src="black.svg" />
+            </div>
+            <div class="second" id="second_5"></div>
+          </div>
+        </div>
+
+        <div class="right">
+          <div class="cell">
+            <button class="lift-btn" id="btn-10" data-floor="10">Call</button>
+          </div>
+          <div class="cell">
+            <button class="lift-btn" id="btn-9" data-floor="9">Call</button>
+          </div>
+          <div class="cell">
+            <button class="lift-btn" id="btn-8" data-floor="8">Call</button>
+          </div>
+          <div class="cell">
+            <button class="lift-btn" id="btn-7" data-floor="7">Call</button>
+          </div>
+          <div class="cell">
+            <button class="lift-btn" id="btn-6" data-floor="6">Call</button>
+          </div>
+          <div class="cell">
+            <button class="lift-btn" id="btn-5" data-floor="5">Call</button>
+          </div>
+          <div class="cell">
+            <button class="lift-btn" id="btn-4" data-floor="4">Call</button>
+          </div>
+          <div class="cell">
+            <button class="lift-btn" id="btn-3" data-floor="3">Call</button>
+          </div>
+          <div class="cell">
+            <button class="lift-btn" id="btn-2" data-floor="2">Call</button>
+          </div>
+          <div class="cell">
+            <button class="lift-btn" id="btn-1" data-floor="1">Call</button>
+          </div>
+        </div>
+      </div>
+      <div class="sound">
+        <audio id="myAudio">
+          <source src="ding.mp3" type="audio/mp3" />
+        </audio>
+      </div>
+    </div>
+
+    <!-- <script>
+        $(document).ready(function() {
+            var liftData = [
+                { lift: 1, floor: 1, isRunning: false, targetFloor: null },
+                { lift: 2, floor: 1, isRunning: false, targetFloor: null },
+                { lift: 3, floor: 1, isRunning: false, targetFloor: null },
+                { lift: 4, floor: 1, isRunning: false, targetFloor: null },
+                { lift: 5, floor: 1, isRunning: false, targetFloor: null }
+            ];
+
+            $(".lift-btn").click(function() {
+                var requestedFloor = $(this).data("floor");
+                console.log("Lift called for floor: " + requestedFloor);
+
+                // Find available lifts or the nearest lift
+                var availableLifts = liftData.filter(function(lift) {
+                    return !lift.isRunning; // Find lifts that are not in use
+                });
+
+                if (availableLifts.length > 0) {
+                    // If there's an available lift, assign the nearest one
+                    var nearestLift = availableLifts.reduce(function(prev, curr) {
+                        return Math.abs(curr.floor - requestedFloor) < Math.abs(prev.floor - requestedFloor) ? curr : prev;
+                    });
+
+                    console.log("Assigned Lift: " + nearestLift.lift);
+                    moveLift(nearestLift, requestedFloor);
+                } else {
+                    // If all lifts are in use, find the nearest one
+                    var nearestLift = liftData.reduce(function(prev, curr) {
+                        return Math.abs(curr.floor - requestedFloor) < Math.abs(prev.floor - requestedFloor) ? curr : prev;
+                    });
+
+                    console.log("Assigned Lift (All Busy): " + nearestLift.lift);
+                    moveLift(nearestLift, requestedFloor);
+                }
+            });
+
+            function moveLift(lift, requestedFloor) {
+                lift.isRunning = true;
+                lift.targetFloor = requestedFloor;
+                console.log("Moving Lift " + lift.lift + " to floor " + requestedFloor);
+
+                var liftElem = $("#elevator_" + lift.lift);
+                var targetPosition = (requestedFloor - 1) * 86; // Calculate position based on floor
+
+                liftElem.css({
+                    transition: "bottom 3s", 
+                    bottom: targetPosition + "px"
+                });
+
+                liftElem.find("img").attr("src", "red.svg");
+
+                // Simulate lift reaching the requested floor after 3 seconds
+                setTimeout(function() {
+                    lift.isRunning = false;
+                    lift.floor = requestedFloor;
+                    liftElem.find("img").attr("src", "green.svg");
+                    // alert("Lift " + lift.lift + " has arrived at floor " + requestedFloor);
+                }, 3000);
+            }
+        });
+    </script> -->
+
+    <!-- <script>
+    $(document).ready(function() {
+        var liftData = [
+            { lift: 1, floor: 1, isRunning: false, targetFloor: null },
+            { lift: 2, floor: 1, isRunning: false, targetFloor: null },
+            { lift: 3, floor: 1, isRunning: false, targetFloor: null },
+            { lift: 4, floor: 1, isRunning: false, targetFloor: null },
+            { lift: 5, floor: 1, isRunning: false, targetFloor: null }
+        ];
+
+        var liftQueue = [];  // This queue will keep track of requested floors
+
+        $(".lift-btn").click(function() {
+            var requestedFloor = $(this).data("floor");
+            console.log("Lift called for floor: " + requestedFloor);
+
+            // Add the requested floor to the queue
+            liftQueue.push(requestedFloor);
+
+            // Check if any lift is available and process the queue
+            processQueue();
+        });
+
+        function processQueue() {
+            // Find the next available lift in the queue
+            var availableLifts = liftData.filter(function(lift) {
+                return !lift.isRunning; // Find lifts that are not in use
+            });
+
+            if (availableLifts.length > 0 && liftQueue.length > 0) {
+                // Get the first available lift and the next requested floor
+                var nextLift = availableLifts[0];
+                var nextRequestedFloor = liftQueue.shift();  // Remove the first item from the queue
+
+                console.log("Assigned Lift: " + nextLift.lift + " to floor " + nextRequestedFloor);
+                moveLift(nextLift, nextRequestedFloor);
+            }
+        }
+
+        function moveLift(lift, requestedFloor) {
+            lift.isRunning = true;
+            lift.targetFloor = requestedFloor;
+            console.log("Moving Lift " + lift.lift + " to floor " + requestedFloor);
+
+            var liftElem = $("#elevator_" + lift.lift);
+            var targetPosition = (requestedFloor - 1) * 86; // Calculate position based on floor
+
+            liftElem.css({
+                transition: "bottom 3s", 
+                bottom: targetPosition + "px"
+            });
+
+            liftElem.find("img").attr("src", "red.svg");
+
+            // Simulate lift reaching the requested floor after 3 seconds
+            setTimeout(function() {
+                lift.isRunning = false;
+                lift.floor = requestedFloor;
+                liftElem.find("img").attr("src", "green.svg");
+
+                // After the first lift reaches the floor, process the next lift in the queue
+                processQueue();
+            }, 3000);
+        }
+    });
+</script> -->
+
+    <!-- <script>
+    $(document).ready(function() {
+        // Initialize lifts and their states
+        var liftData = [
+            { lift: 1, floor: 1, isRunning: false, targetFloor: null, $button: $('#call-btn-1'), $elevator: $('#elevator_1') },
+            { lift: 2, floor: 1, isRunning: false, targetFloor: null, $button: $('#call-btn-2'), $elevator: $('#elevator_2') },
+            { lift: 3, floor: 1, isRunning: false, targetFloor: null, $button: $('#call-btn-3'), $elevator: $('#elevator_3') },
+            { lift: 4, floor: 1, isRunning: false, targetFloor: null, $button: $('#call-btn-4'), $elevator: $('#elevator_4') },
+            { lift: 5, floor: 1, isRunning: false, targetFloor: null, $button: $('#call-btn-5'), $elevator: $('#elevator_5') }
+        ];
+
+        var liftQueue = [];  // Queue to manage floor requests
+
+        // When any lift button is clicked
+        $(".lift-btn").click(function() {
+            var requestedFloor = $(this).data("floor");
+            var buttonId = $(this).attr('id');
+            console.log("Lift called for floor: " + requestedFloor);
+
+            // Disable the button and change text to "Waiting"
+            $("#" + buttonId).prop('disabled', true).text('Waiting');
+
+            // Add the requested floor to the queue
+            liftQueue.push({ requestedFloor, buttonId });
+
+            // Process the queue to assign the next lift
+            processQueue();
+        });
+
+        // Function to process the queue
+        function processQueue() {
+            // Find available lifts
+            var availableLifts = liftData.filter(function(lift) {
+                return !lift.isRunning; // Lifts that are not currently running
+            });
+
+            if (availableLifts.length > 0 && liftQueue.length > 0) {
+                // Get the first available lift and the next requested floor
+                var nextLift = availableLifts[0];
+                var nextRequest = liftQueue.shift();  // Get the next requested floor
+
+                console.log("Assigned Lift: " + nextLift.lift + " to floor " + nextRequest.requestedFloor);
+
+                // Move the lift to the requested floor
+                moveLift(nextLift, nextRequest.requestedFloor, nextRequest.buttonId);
+            }
+        }
+
+        // Function to simulate moving the lift
+        function moveLift(lift, requestedFloor, buttonId) {
+            lift.isRunning = true;
+            lift.targetFloor = requestedFloor;
+            console.log("Moving Lift " + lift.lift + " to floor " + requestedFloor);
+
+            var liftElem = lift.$elevator;
+            var targetPosition = (requestedFloor - 1) * 86; // Assuming each floor is 86px apart
+
+            // Change the elevator's SVG to red (moving)
+            liftElem.find("img").attr("src", "red.svg");
+
+            // Animate the elevator's movement
+            liftElem.css({
+                transition: "bottom 3s",
+                bottom: targetPosition + "px"
+            });
+
+            // After the elevator reaches the target floor (simulated by a 3-second delay)
+            setTimeout(function() {
+                lift.isRunning = false;
+                lift.floor = requestedFloor;
+
+                // Change the elevator's SVG to green (arrived)
+                liftElem.find("img").attr("src", "green.svg");
+
+                // Change button text to "Arrived"
+                $("#" + buttonId).text('Arrived');
+
+                // Wait 2 seconds, then reset everything
+                setTimeout(function() {
+                    $("#" + buttonId).prop('disabled', false).text('Call');
+                    liftElem.find("img").attr("src", "black.svg"); // Reset the elevator's SVG to black
+
+                    // After resetting, process the next request in the queue
+                    processQueue();
+                }, 2000);
+
+            }, 3000); // Simulate the lift arriving after 3 seconds
+        }
+    });
+</script> -->
+
+    <script>
+      $(document).ready(function () {
+        var liftData = [
+          {
+            lift: 1,
+            floor: 1,
+            isRunning: false,
+            targetFloor: null,
+            $elevator: $("#elevator_1"),
+            $second: $("#second_1"),
+          },
+          {
+            lift: 2,
+            floor: 1,
+            isRunning: false,
+            targetFloor: null,
+            $elevator: $("#elevator_2"),
+            $second: $("#second_2"),
+          },
+          {
+            lift: 3,
+            floor: 1,
+            isRunning: false,
+            targetFloor: null,
+            $elevator: $("#elevator_3"),
+            $second: $("#second_3"),
+          },
+          {
+            lift: 4,
+            floor: 1,
+            isRunning: false,
+            targetFloor: null,
+            $elevator: $("#elevator_4"),
+            $second: $("#second_4"),
+          },
+          {
+            lift: 5,
+            floor: 1,
+            isRunning: false,
+            targetFloor: null,
+            $elevator: $("#elevator_5"),
+            $second: $("#second_5"),
+          },
+        ];
+
+        var requestQueue = []; // Queue to store pending requests
+
+        $(".lift-btn").click(function () {
+          var requestedFloor = $(this).data("floor");
+          var buttonId = $(this).attr("id");
+          console.log("Lift called for floor: " + requestedFloor);
+
+          $("#" + buttonId)
+            .prop("disabled", true)
+            .text("Waiting");
+
+          // Check if a lift is already on the requested floor
+          var liftOnRequestedFloor = liftData.some(function (lift) {
+            return lift.floor === requestedFloor && !lift.isRunning; // Lift is on requested floor and not running
+          });
+
+          if (liftOnRequestedFloor) {
+            $("#" + buttonId)
+              .prop("disabled", true)
+              .text("Lift is here");
+            return; // No lift called, exit
+          }
+
+          // Add the request to the queue
+          requestQueue.push({ floor: requestedFloor, buttonId: buttonId });
+          processQueue(); // Process the queue whenever a new request is added
+        });
+
+        function processQueue() {
+          // Check if there are pending requests and any lift is free to handle it
+          var availableLifts = liftData.filter(function (lift) {
+            return !lift.isRunning; // Lifts that are not currently moving
+          });
+
+          if (availableLifts.length > 0 && requestQueue.length > 0) {
+            var nextRequest = requestQueue.shift(); // Get the next pending request
+            assignLiftToFloor(nextRequest.floor, nextRequest.buttonId); // Assign the request to the available lift
+          }
+        }
+
+        function assignLiftToFloor(requestedFloor, buttonId) {
+          var availableLifts = liftData.filter(function (lift) {
+            return !lift.isRunning; // Lifts that are not currently moving
+          });
+
+          if (availableLifts.length > 0) {
+            var closestLift = availableLifts.reduce(function (prev, curr) {
+              return Math.abs(curr.floor - requestedFloor) <
+                Math.abs(prev.floor - requestedFloor)
+                ? curr
+                : prev;
+            });
+
+            moveLift(closestLift, requestedFloor, buttonId);
+          }
+        }
+
+        function moveLift(lift, requestedFloor, buttonId) {
+          lift.isRunning = true;
+          lift.targetFloor = requestedFloor;
+          console.log(
+            "Moving Lift " + lift.lift + " to floor " + requestedFloor
+          );
+
+          var floorsToMove = Math.abs(lift.floor - requestedFloor);
+          var targetPosition = (requestedFloor - 1) * 86;
+          var timeToReach = floorsToMove * 3; // Assuming 3 seconds per floor
+
+          lift.$second.text(timeToReach + " sec");
+          lift.$second.css({
+            bottom: targetPosition + 36 + "px",
+            left: "36px",
+          });
+
+          // Animate lift movement
+          lift.$elevator.find("img").attr("src", "red.svg");
+          lift.$elevator.css({
+            transition: "bottom " + timeToReach + "s ease-in-out",
+            bottom: targetPosition + "px",
+          });
+
+          setTimeout(function () {
+            lift.$second.text("");
+          }, (timeToReach - 2.5) * 1000);
+
+          setTimeout(function () {
+            lift.isRunning = false;
+            lift.floor = requestedFloor;
+            lift.$elevator.find("img").attr("src", "green.svg");
+            $("#" + buttonId).text("Arrived");
+            $("#myAudio")[0].play();
+            setTimeout(function () {
+              $("#" + buttonId)
+                .prop("disabled", false)
+                .text("Call");
+              lift.$elevator.find("img").attr("src", "black.svg");
+              processQueue(); // Process the queue after the lift has arrived
+            }, 2000);
+          }, timeToReach * 1000);
+        }
+      });
+    </script>
+  </body>
+</html>
